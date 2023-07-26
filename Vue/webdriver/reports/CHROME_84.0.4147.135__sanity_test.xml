@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="1">
+
+  <testsuite name="sanity_test"
+    errors="1" failures="0" hostname="" id="" package="sanity_test" skipped="0"
+    tests="1" time="5.722" timestamp="">
+  
+    <testcase name="sanity test" classname="sanity_test" time="5.722" assertions="0">
+    <error message="Error while running &#34;waitForElementVisible&#34; command: Error while trying to create HTTP request for &#34;/wd/hub/session/2bb55a3d8b7a9e0f2cbbbb5816b371e6/element/[object Object]/displayed&#34;: Request path contains unescaped characters" type="error"><![CDATA[
+    TypeError [ERR_UNESCAPED_CHARACTERS]: Request path contains unescaped characters
+    at new ClientRequest (_http_client.js:139:13)
+    at Object.request (http.js:44:10)
+    at HttpRequest.createHttpRequest (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/http/request.js:138:55)
+    at HttpRequest.send (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/http/request.js:217:29)
+    at /home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/transport.js:193:15
+    at new Promise (&lt;anonymous&gt;)
+    at Selenium2Protocol.sendProtocolAction (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/transport.js:191:12)
+    at Selenium2Protocol.runProtocolAction (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/jsonwire.js:61:17)
+    at Object.isElementDisplayed (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/actions.js:54:10)
+    at Selenium2Protocol.executeProtocolAction (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/transport.js:239:48)
+    ]]></error>
+    
+    </testcase>
+  
+
+  
+    <system-err>
+        TypeError: Error while running &#34;waitForElementVisible&#34; command: Error while trying to create HTTP request for &#34;/wd/hub/session/2bb55a3d8b7a9e0f2cbbbb5816b371e6/element/[object Object]/displayed&#34;: Request path contains unescaped characters
+       at new ClientRequest (_http_client.js:139:13)
+       at Object.request (http.js:44:10)
+       at new Promise (&lt;anonymous&gt;)
+    </system-err>
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="1">
+
+  <testsuite name="sanity_test"
+    errors="1" failures="0" hostname="" id="" package="sanity_test" skipped="0"
+    tests="1" time="0.7290" timestamp="">
+  
+    <testcase name="sanity test" classname="sanity_test" time="0.7290" assertions="0">
+    <error message="browser.url(...).keys(...).keys(...).eyys is not a function" type="error"><![CDATA[
+    TypeError: browser.url(...).keys(...).keys(...).eyys is not a function
+    at Object.sanity test (/home/obiwan/bapp/quasar/webdriver/specs/sanity_test.js:8:8)
+    at Context.call (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/context.js:379:35)
+    at TestCase.run (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/testcase.js:49:31)
+    at Runnable.__runFn (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/index.js:376:80)
+    at Runnable.run (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/runnable.js:123:21)
+    at TestSuite.createRunnable (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/index.js:443:33)
+    at TestSuite.handleRunnable (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/index.js:448:18)
+    at /home/obiwan/bapp/quasar/node_modules/nightwatch/lib/testsuite/index.js:376:21
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async DefaultRunner.runTestSuite (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/runner/test-runners/default.js:68:7)
+    ]]></error>
+    
+    </testcase>
+  
+
+  
+    <system-err>
+        TypeError: browser.url(...).keys(...).keys(...).eyys is not a function
+   - writing an ES6 async test case? - keep in mind that commands return a Promise; 
+   - writing unit tests? - make sure to specify &#34;unit_tests_mode=true&#34; in your config.
+       at Object.sanity test (/home/obiwan/bapp/quasar/webdriver/specs/sanity_test.js:8:8)
+       at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    </system-err>
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

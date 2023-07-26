@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="sanity_test"
+    errors="1" failures="0" hostname="" id="" package="sanity_test" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+        Error: An error occurred while retrieving a new session: &#34;session not created: This version of ChromeDriver only supports Chrome version 84&#34;
+       at endReadableNT (_stream_readable.js:1184:12)
+       at processTicksAndRejections (internal/process/task_queues.js:80:21)
+    </system-err>
+  
+
+    
+    <error message="An error occurred while retrieving a new session: &#34;session not created: This version of ChromeDriver only supports Chrome version 84&#34;"><![CDATA[
+      Error: An error occurred while retrieving a new session: &#34;session not created: This version of ChromeDriver only supports Chrome version 84&#34;
+    at Selenium2Protocol.handleSessionCreateError (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/transport.js:103:15)
+    at HttpRequest.&lt;anonymous&gt; (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/transport/transport.js:158:32)
+    at HttpRequest.emit (events.js:210:5)
+    at HttpResponse.&lt;anonymous&gt; (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/http/request.js:131:19)
+    at HttpResponse.emit (events.js:210:5)
+    at IncomingMessage.&lt;anonymous&gt; (/home/obiwan/bapp/quasar/node_modules/nightwatch/lib/http/response.js:60:14)
+    at IncomingMessage.emit (events.js:215:7)
+    at endReadableNT (_stream_readable.js:1184:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+      ]]></error>  
+
+  
+    
+    <testcase
+      name="sanity test" classname="sanity_test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

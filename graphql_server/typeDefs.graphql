@@ -1,0 +1,1280 @@
+scalar DateTime
+scalar GraphQLLong
+scalar Any
+
+#directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION
+
+type User {
+  _id: String!
+  nick: String!
+  password: String!
+  defaultAddress: String
+  roles: [String!]
+  avatar: String
+  registered: DateTime!
+  last_access: DateTime!
+  opts: [UserOpt!]
+  settings: Any!
+  frequents: Any
+  donation_address: String
+  fee_address: String
+  subscription: Int
+  subscriptionDate: DateTime
+  subscriptionAddress: String
+  thirdpartyDate: DateTime
+  origin: String
+  referral: Int
+  marketplace: String
+  stats: [Stat!]
+}
+
+
+type Stat {
+  name: String!
+  value: Int!
+}
+
+type ResetPassword {
+  _id: ID!
+  code: String!
+}
+
+# Wallet
+type Wallet { #@auth(requires: USER) {
+  _id: ID!
+  name: String!
+  mnemonic: String
+  xpub:  String
+  balance: GraphQLLong!
+  unconfirmedBalance: GraphQLLong!
+  lastChild: Int
+  userId: ID!
+  created: DateTime!
+  address(addressId: String!): Address
+  addresses: [Address!]! # Type.js
+  coins(paging: Paging, bytx: Boolean): [Coin!]
+  addresses_confirmed_utxos: [Address!] # only confirmend & not part of pending payment
+  #addressId: String # for single-address wallets
+  path: String
+  isLegacy: Boolean
+  isCold: Boolean
+  noPassphrase: Boolean
+}
+
+input NewWalletInput {
+  name: String!
+  mnemonic: String
+  xpub: String!
+  addresses: [String!]!
+  path: String!
+  noPassphrase: Boolean!
+}
+
+input Paging {
+  page: Int!
+  pagesize: Int!
+}
+
+# Address
+input saveAddressInput { #@auth(requires: USER) {
+  _id: String!
+  name: String
+  index: Int
+  parentId: ID!
+} 
+
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+type Address { #@auth(requires: USER) {
+  _id: String!
+  name: String
+  balance: GraphQLLong!
+  unconfirmedBalance: GraphQLLong!
+  parentId: ID
+  wallet: Wallet
+  index: Int
+  created: DateTime
+  coins(paging: Paging, bytx: Boolean): [Coin!]
+  utxos: [Utxo!] # all utxos. including unconfirmed
+  confirmed_utxos: [Utxo!] # only confirmend & not part of pending payment
+  pkCypher: String
+}
+
+type NewCoin {
+  _id: ID!
+  time: GraphQLLong!
+  concept: String
+  icon: String
+  nicks: [String!]
+  sender: String
+  height: Int
+  value: GraphQLLong!
+  pending_payment: ID
+  addressId: String! # for wallet's newCoin
+  addressName: String! # wallet's newCoin
+  addressIndex: String # beginnig to look awful
+  addressConfirmedBalance: GraphQLLong
+  addressUnconfirmedBalance: GraphQLLong
+  walletId: ID
+  walletConfirmedBalance: GraphQLLong
+  walletUnconfirmedBalance: GraphQLLong
+  tx: String!
+}
+
+type Utxo {
+  _id: ID!
+  address: String! # index (address, utxo_tx, utxo_n)
+  utxo_tx: String
+  utxo_n: Int!
+  utxo_time: GraphQLLong! # to show in historic
+  utxo_height: Int # for confirmations
+  utxo_concept: String
+  utxo_icon: String
+  value: GraphQLLong!
+  pending_payment: ID
+}
+
+input UtxoInput {
+  _id: String!
+  tx: String!
+  n: Int!
+}
+
+type OutSet {
+  address: [Out!]
+}
+
+type Out {
+  txid: String
+  vout: Int
+  value: GraphQLLong!
+  height: Int
+}
+
+type FeesByte {
+  fastest: Int!
+  hour: Int!
+  halfhour: Int!
+  hours24: Int!
+}
+
+type Coin {
+  _id: ID!
+  time: GraphQLLong!
+  concept: String
+  icon: String
+  nicks: [String!]
+  sender:  String
+  height: Int
+  value: GraphQLLong!
+  pending_payment: ID
+  tx: String!
+}
+
+type Block {
+  _id: String!
+  prevhash: String!
+  nexthash: String!
+  height: Int!
+  time: GraphQLLong!
+  mediantime: GraphQLLong!
+  processed: DateTime!
+}
+
+input NewBlockInput {
+  prevhash: String!
+  nexthash: String!
+  height: Int!
+  time: GraphQLLong!
+  mediantime: GraphQLLong!
+  processed: DateTime!
+}
+
+type UserOpt {
+  _id: ID!
+  name: String!
+  userId: ID!
+  value: Any
+}
+
+# chat --------------------------------------------------------------
+
+type Chat {
+  _id: String!
+  name: String
+  isGroup: Boolean
+  avatar: String
+  managerId: String!
+  membersId: [String!]
+}
+
+type ChatMessage {
+  id: String!
+  chatId: String # null for single users
+  chatName: String # null for single users
+  isGroup: Boolean
+  avatar: String
+  senderId: String!
+  senderNick: String!
+  membersId: [String!] # a single member for single users.
+  text: String!
+}
+
+# Alert
+type Alert {
+  _id: ID!
+  userId: ID!
+  code: Int!
+  entryId: ID!
+  created: DateTime!
+  aux1: Any
+  aux2: Any
+  aux3: Any
+}
+
+type AlertDeleted {
+  _id: ID
+  userId: String!
+  entryId: ID
+  code: Int
+}
+
+input AlertInput {
+  userId: String!
+  code: Int!
+  entryId: ID!
+  aux1: Any
+  aux2: Any
+  aux3: Any
+}
+
+# Nyktusug Payment
+type MultisigPayment {
+  _id: ID!
+  satoshis: GraphQLLong!
+  concept: String
+  icon: String
+  nicks: [String!]
+  sender: String
+  multisigId: String!
+  tx: String!
+  creatorId: String!
+  created: DateTime!
+  signers: [MultisigPaymentSigner!]
+  broadcasted: Any
+  utxos: [Utxo!]!
+  collection: String
+  dd: ID
+  data: Any # recurringpay or payreq
+}
+
+type MultisigPaymentSigner {
+  userId: String!
+  nick: String!
+  date: DateTime!
+  signature: String
+}
+
+input TxExtraInfo {
+  concept: String
+  icon: String
+  nicks: [String!]!
+  sender: String!
+}
+
+input MultisigPaymentInput {
+  satoshis: GraphQLLong!
+  txextrainfo: TxExtraInfo!
+  multisigId: ID!
+  tx: String!
+  utxos: [UtxoInput!]!
+  collection: String
+  data: String # recurringpay or payreq
+}
+
+input MultisigPaymentSignerInput {
+  userId: String!
+  nick: String!
+}
+
+type scriptSignedReturn {
+  tx_id: String
+  signedOk: Boolean!
+  error: String
+}
+
+type SmartcontractSetPubkeyReturn {
+  ok: Boolean
+  scriptAddress: Boolean
+}
+
+# Nyktusug
+type Multisig {
+  _id: ID!
+  name: String!
+  M: Int!
+  N: Int!
+  creatorId: String!
+  created: DateTime!
+  signers: [Signer!]
+  scriptAddressId: String
+  output: Any
+  witness: Any
+  address: Address
+  payments: [MultisigPayment!]
+  thirdpartyUserId: String
+}
+
+input MultisigSetAddressInput {
+  _id: ID!
+  name: String!
+  M: Int!
+  creatorId: String
+  signers: [SignerInput!]!
+}
+
+input SaveMultisigInput {
+  name: String!
+  M: Int!
+  N: Int!
+  signers: [SignerInput!]!
+}
+
+input EscrowInput {
+  name: String!
+  thirdpartyUserId: String!
+  signers: [SignerInput!]!
+}
+
+type Signer {
+  userId: String!
+  nick: String
+  addressId: String
+  signedId: ID # whatever was signed. When it makes sense.
+  #sigs: [String!] # payment signature subscripcion.
+  path: Any # inheritance/smartcontract
+  tree: Any # after setting script pub key
+  level: Int # inheritance signer's level
+  signature: String
+}
+
+input SignerInput {
+  userId: String!
+  nick: String!
+  addressId: String
+  recipientAddressId: String # inheritance to receive in different address
+  level: Int # inheritance level
+  signature: String
+  percentage: Int
+  satoshis: GraphQLLong
+  type: String
+  id: String
+  parentId: String
+  sigs: [String]
+}
+
+type SignData {
+  pubkeys: [Any!] # for multisig
+  wallet: Wallet
+  address: Address
+  name: String # inheritance
+  path: Any # inheritance/smartcontract
+  output: Any
+  witness: Any
+  tx: String # inheritance
+}
+
+# Smart contract
+type Smartcontract {
+  _id: ID!
+  name: String!
+  creatorId: String!
+  created: DateTime!
+  signers: [Signer!]
+  tree: Any
+  scriptAddressId: String
+  output: Any
+  witness: Any
+  scriptBytes: Int
+  address: Address
+  payments: [Payment!]
+}
+
+input SaveSmartcontractInput {
+  name: String
+  signers: [SignerInput!]!
+  tree: Any!
+}
+
+input SmartcontractSetp2wshInput {
+  _id: ID!
+  name: String!
+  creatorId: String!
+  signers: [SignerInput!]!
+  tree: Any!
+}
+
+input SmartcontractPaymentInput {
+  satoshis: GraphQLLong!
+  scriptId: ID!
+  tx: String! # hex
+  path: Any!
+  txextrainfo: TxExtraInfo!
+  utxos: [UtxoInput!]!
+}
+
+
+type Payment {
+  _id: ID!
+  satoshis: GraphQLLong!
+  concept: String
+  icon: String
+  nicks: [String!]
+  sender: String
+  smartcontractId: String!
+  tx: String!
+  scriptId: ID!
+  path: Any!
+  creatorId: String!
+  created: DateTime!
+  broadcasted: Boolean
+  utxos: [Utxo!]!
+}
+
+type LoginReturn {
+  token: String!
+  user: User!
+}
+
+type multisigPaymentDeletedReturn {
+  msigpayId: ID!
+  freed_utxos: [Utxo!]!
+}
+
+type paymentDeletedReturn {
+  paymentId: ID!
+  freed_utxos: [Utxo!]!
+}
+
+type txBroadcastedReturn {
+  paymentId: ID!
+  freed_utxos: [Utxo!]!
+}
+
+#type inheritancePaidReturn {
+#  ScriptId: ID!
+#}
+# status: 0 inactive, 1: active, 2: in execution 3: executed
+# Inheritance
+type Inheritance {
+  _id: ID!
+  name: String!
+  testatorId: String!
+  timetriggered: Boolean
+  created: DateTime!
+  status: Int!
+  timetrigger: Int
+  signers: [Signer!]
+  tree: ScriptTree
+  scriptAddressId: String
+  output: Any
+  witness: Any
+  scriptBytes: Int
+  path: Any
+  tx: String
+  address: Address
+  thirdpartyUserId: String
+  isThirdParty: Boolean
+  #thirdpartyAddressId: String
+  aftermessages: [Aftermessage!]
+  activeHeirs: [Any]
+}
+
+type ScriptTree {
+  id: String
+  name: String
+  type: String
+  level: Int
+  children: [ScriptChild!]
+  userId: String
+  nick: String
+  addressId: String
+  recipientAddressId: String
+}
+
+type ScriptChild {
+  id: String
+  name: String
+  nick: String
+  type: String
+  children: [ScriptChild]
+  parentId: String
+  level: Int
+  percentage: Int
+  userId: String
+  addressId: String
+  recipientAddressId: String
+}
+
+input ScriptTreeInput {
+  id: String
+  name: String
+  type: String
+  level: Int
+  children: [ScriptChildInput!]
+  userId: String
+  nick: String
+  addressId: String
+  recipientAddressId: String
+}
+
+input ScriptChildInput {
+  id: String
+  name: String
+  nick: String
+  type: String
+  children: [ScriptChildInput]
+  parentId: String
+  level: Int
+  percentage: Int
+  userId: String
+  addressId: String
+  recipientAddressId: String
+}
+
+input ScriptPath {
+  lockTime: Int
+  lockTimeText: String
+  steps: [ScriptPathStep!]!
+}
+
+input ScriptPathStep {
+  type: String!
+  number: Int
+  userId: String
+  nick: String
+  addressId: String
+  signers: [SignerInput]
+  sigs: [String]
+}
+
+
+# status: 1 waiting for executationDate, 2: waiting for testatorDate, 3: beneficiary executed, 4: no funds at executionDate,
+# 10: waiting for testator Date, 11: executed for testator, 20: waiting for backDAte, 21: executed backDate
+type Trust {
+  _id: ID!
+  name: String!
+  beneficiary: Signer!
+  executionDate: Int!
+  testatorId: String!
+  testatorNick: String!
+  testatorDate: Int!
+  created: DateTime!
+  status: Int!  
+  #tree: Any
+  scriptAddressId: String
+  output: Any
+  witness: Any
+  #path: Any
+  address: Address
+  tx: String
+  path: Any
+  thirdpartyUserId: String
+}
+
+# RecurringPays
+type RecurringPay {
+  _id: ID!
+  userId: String!
+  concept: String!
+  icon: String!
+  type: Int!
+  day: Int!
+  month: Int!
+  created: DateTime!
+  nextDate: GraphQLLong!
+  recipients: [String!]
+  nicks: [String!]
+  amounts: [GraphQLLong!]
+  currency: String!
+  total: GraphQLLong!
+  payments(paging: Paging): [RecurringPayPay!]
+}
+
+type RecurringPayPay {
+  _id: ID!
+  recurringpayId: ID!
+  satoshis: GraphQLLong!
+  fiat: String!
+  currency: String!
+  time: DateTime!
+}
+
+type RecurringPayDeleted {
+  _id: ID
+  userId: String
+}
+
+input RecurringPayInput {
+  _id: ID
+  concept: String!
+  icon: String!
+  nicks: [String!]
+  type: Int!
+  day: Int!
+  month: Int!
+  recipients: [String!]
+  currency: String!
+  amounts: [GraphQLLong!]
+  total: GraphQLLong!
+}
+
+# Payrequest
+type Payrequest {
+  _id: ID!
+  title: String!
+  label: String!
+  userId: String!
+  origin: String
+  payerId: String!
+  nick: String!
+  satoshis: GraphQLLong!
+  pay2address: String!
+  created: DateTime!
+  paid: DateTime
+  tx_id: String
+}
+
+type PayrequestDeleted {
+  _id: ID!
+}
+
+type PayrequestPaid {
+  _id: ID!
+  tx_id: String!
+  paid: DateTime
+}
+
+input PayrequestInput {
+  title: String!
+  label: String!
+  payerId: String!
+  nick: String!
+  pay2address: String!
+  satoshis: GraphQLLong!
+}
+
+# After messages
+type Aftermessage {
+  _id: ID!
+  senderId: String!
+  name: String!
+  beneficiaryId: String!
+  beneficiaryNick: String!
+  senderNick: String!
+  type: Int!
+  date: DateTime!
+  message: String!
+  timetrigger: Int!
+  created: DateTime!
+  status: Int!
+  parentId: ID # inheritance
+  thirdpartyUserId: String
+  thirdpartyName: String
+  thirdpartyId: ID
+  thirdparty: Thirdparty
+}
+
+# lightning ------------------------------------------------------------
+type Lightning {
+  _id: ID!
+  userId: String!
+  walletId: String!
+  userAddressIndex: Int!
+  bappAddressIndex: Int!
+  bappWalletId: ID!
+  pubkeys: [String!]! 
+  inContract: GraphQLLong!
+  user_msats: GraphQLLong!
+  pending_funding: GraphQLLong
+  scriptAddressId: String!
+  refundTx: String
+  userSignature: String
+  refundSatoshis: GraphQLLong
+  cancelSignature: String
+  pays: [LnPay!]
+}
+
+type LnPay {
+  _id: ID!
+  id: String! # created by lnd
+  creatorId: String
+  creatorNick: String
+  bolt11: String!
+  payerId: String
+  payerNick: String
+  msats: GraphQLLong!
+  fee: GraphQLLong
+  description: String!
+  created: DateTime # paid/received
+  expiry_at: String # paid/received
+  paid: DateTime # paid/received
+  refundTx: String
+  refundSatoshis: GraphQLLong
+  wallet: Wallet
+}
+
+type LnCancel {
+  cancelTx: String!
+  wallet: Wallet!
+}
+
+type LnPayrequest { # decoded bolt11
+  id: String!
+  created_at: String!
+  expires_at: String!
+  mtokens: String!
+  destination: String!
+  description: String!
+  payment: String!
+  is_expired: Boolean!
+}
+
+type BappLN {
+  pubkey: String!
+  alias: String!
+  version: String!
+  numPeers: Int!
+  numChannels: [Int!]!
+  utxos: [Any!]
+  channels: [Any!]
+  peers: [Any!]
+}
+
+# Feedback ----------------------------------------------------------------
+type Feedback {
+  _id: ID!
+  userId: String
+  nick: String
+  rating: Float!
+  text: String!
+  pics: [String!]
+  created: DateTime
+  status: Int!
+  answer: String
+}
+
+type Message {
+  _id: ID!
+  userId: String!
+  nick: String
+  origin: String
+  rating: Float
+  pics: [String!]
+  status: Int!
+  entries: [MessageEntry!]
+}
+
+type MessageEntry {
+  text: String!
+  date: DateTime!
+  type: String!
+}
+
+# Contact
+type Contact {
+  _id: ID!
+  userId: String
+  name: String!
+  email: String!
+  message: String!
+  created: DateTime
+  status: Int!
+  answer: String
+}
+
+type Ping {
+  _id: ID!
+  type: Int!
+  payload: Any!
+}
+
+type Pong {
+  _id: ID!
+  type: Int!
+  payload: Any!
+}
+
+type Fiat {
+  USD: GraphQLLong
+  EUR: GraphQLLong
+  GBP: GraphQLLong
+  JPY: GraphQLLong
+  AUD: GraphQLLong
+  CHF: GraphQLLong
+}
+
+type Bar {
+  open: GraphQLLong!
+  high: GraphQLLong!
+  low: GraphQLLong!
+  close: GraphQLLong!
+  day: DateTime!
+}
+
+# admin
+type BappSetting {
+  _id: ID!
+  name: String!
+  value: Any!
+  type: String!
+}
+
+# services
+type PaidService {
+  _id: ID!
+  userId: String!
+  serviceId: Int!
+  granted: Boolean
+  value: GraphQLLong
+
+  referrer: Int
+  referrerValue: GraphQLLong # amount paid to referrer
+  referrerPaid: DateTime # date when referrer was paid
+  referrerPercentage: Int # Type.js
+  referrerAddress: String # Type.js
+
+  origin: String # Bitcapp, ...
+  originHasPaid: DateTime
+  date: DateTime!
+}
+
+type serviceAddress {
+  _id: ID!
+  balance: GraphQLLong,
+  unconfirmedBalance: GraphQLLong,
+  serviceUserId: String!
+  serviceId: Int!,
+  process: Boolean,
+}
+
+type thirdpartyAddress {
+  _id: ID!
+  balance: GraphQLLong,
+  unconfirmedBalance: GraphQLLong,
+  process: Boolean,
+}
+
+# ThirdParties
+
+type Thirdparty {
+  _id: ID!
+  name: String!,
+  web: String!
+  logoUrl: String!,
+  address: String!,
+  country: String!
+  email: String!,
+  phone: String!,
+  coordinates: [Float]
+  languages: [String!]
+  created: DateTime!
+}
+
+input ThirdpartyInput {
+  _id: ID!
+  name: String!,
+  web: String!
+  logoUrl: String!,
+  address: String!,
+  email: String!,
+  phone: String!,
+  languages: [String!]
+}
+
+
+# users Stats
+type BappStat {
+  date: DateTime!
+  # users
+  usersCount: Int!
+  newUsers: Int!
+  activeUsers: Int! # last login < 1 month
+  inactiveUsers: Int! # last login > 3 months
+  # items
+  wallets: Int!
+  jointWallets: Int!
+  escrows: Int!
+  recurringPays: Int!
+  payrequests: Int!
+  inheritances: Int!
+  inheritances3Party: Int!
+  # subscriptions
+  plus: Int!
+  ultra: Int!
+  thirdparty: Int!
+  # balances
+  walletsBalance: GraphQLLong!
+  jointWalletsBalance: GraphQLLong!
+  escrowsBalance: GraphQLLong!
+  inheritancesBalance: GraphQLLong!
+  inheritances3PartyBalance: GraphQLLong!
+}
+
+type Refered {
+  _id: ID!
+
+}
+
+type Poll {
+  _id: ID!
+  name: String!
+  question: String
+  answers: [PollAnswer!]
+  comments: [PollComment!]
+  created: DateTime!
+}
+
+type PollAnswer {
+  answer: String!
+  votes: Int!
+}
+
+type PollComment {
+  userId: String!
+  nick: String!
+  comment: String!
+}
+
+
+# QUERIES -------------------------------
+type Query { 
+  me: User
+  user(_id: String, token: String): User
+  alerts: [Alert!]
+  resetpassword(code: String!): ResetPassword
+
+  # wallets
+  wallets(withBalance: Boolean): [Wallet!]
+  wallet(_id: ID!): Wallet
+  multisigs: [Multisig!]
+  multisig(_id: ID!): Multisig!
+  addresses(walletId: ID, withBalance: Boolean): [Address!]!
+  address(_id: String): Address
+  getOutSet(addrs: [String!]!): OutSet!
+
+  # blockchain etc
+  lastBlock: Block!
+  feesByte: FeesByte!
+  fiat: Fiat
+  bars: [Bar!]
+
+  # smartcontracts
+  smartcontracts: [Smartcontract!]
+  smartcontract(_id: ID!): Smartcontract!
+
+  # inheritance
+  inheritance(_id: ID!): Inheritance
+  inheritances: [Inheritance!]
+
+  # trust
+  trust(_id: ID!): Trust
+  trusts: [Trust!]
+
+  # recurringpays
+  recurringpays: [RecurringPay!]
+  recurringpay(_id: ID!): RecurringPay!
+
+  # Payrequests
+  payrequests: [Payrequest!]
+  payrequest(_id: ID!): Payrequest!
+
+  # After Messages
+  aftermessages: [Aftermessage!]
+
+  # Chat
+  chats: [Chat]
+
+  # Contact
+  contacts(all: Boolean!, status: Int!): [Contact!]
+
+  # Thridparty
+  thirdparty(userId: ID): Thirdparty
+  thirdparties: [Thirdparty!]
+
+  # Lightning
+  lightning: Lightning
+  decode(bolt11: String!): LnPayrequest
+  lnpays(filter: String): [LnPay]
+  bappLN(isLN2: Boolean): BappLN
+  lnUsers(paging: Paging): [Lightning]!
+  lnCancelling: [Lightning]!
+  lnCancelled(paging: Paging): [Lightning]!
+
+  # Message
+  messages(all: Boolean!, status: Int!): [Message!]
+
+  # Polls
+  polls: [Poll!]
+  poll(_id: ID!): Poll
+
+  # BappStats
+  allUsers: [User!]! # query allUsers {  allUsers{  _id  nick	} }
+  totalUsers: Int!
+  bappStats: [BappStat!]!
+
+  # bapp
+  bappSettings(names: [String!], filter: String): [BappSetting!]
+  #serviceAddress: serviceAddress
+  paidService(serviceId: Int!): PaidService
+  paidServices(serviceId: Int, paid: Boolean, used: Boolean, referrer: Int): [PaidService!]
+  paidServicesInterval(serviceId: Int, dateIni: String!, dateEnd: String!, referrer: Int, origin: String): [PaidService!]
+  referred(referrer: Int!): [Int!]
+
+  # Mongo  Admin
+  collections: [String!]!
+  eval(cmd: String!): Any!
+  enc_dec(text: String, cyph: String): String!
+
+
+}
+
+# MUTATIONS  ---------------------------------
+type Mutation { 
+  setWalletName(_id: ID!, name: String!): Boolean!
+  newWallet(input: NewWalletInput!): Wallet!
+  # newAddress(input: saveAddressInput!): Address!
+  createAddress(walletId: ID!, name:  String!): Address!
+  setAddressName(_id: String!, name: String!): Boolean!
+  broadcastTx(tx_id: String!, tx_hex: String!, txextrainfo: TxExtraInfo!, collection: String, scriptId: ID, pay_id: ID, data: Any): Any
+  saveAlert(input: AlertInput!): Alert!
+  deleteAlert(entryId: ID!, code: Int!): AlertDeleted!
+  deleteAlertById(_id: ID!): AlertDeleted!
+  newLegacyWallet(name: String!): Wallet!
+  addPrivateKey(walletId: String!, addressId: String!, name: String!, pkCypher: String!): Address!
+  hotify(_id: ID!, mnemonic: String!, xpub: String!): Boolean!
+
+  # chat
+  sendMessage(chatId: String, chatName: String, isGroup: Boolean, avatar: String, membersId: [String!], text: String!): Boolean!
+  updateChat(_id: String, name: String, avatar: String, membersId: [String!]): Boolean!
+
+  # services
+  serviceAddress(serviceId: Int!): serviceAddress!
+  thirdpartyAddress: thirdpartyAddress!
+  paidService(email_256: String!, serviceId: Int!, value: Float!, origin: String!): Boolean!
+  grantService(userId: String!, serviceId: Int!): Boolean!
+  paidServicesPaid(ids: [ID!]!, amounts: [GraphQLLong!]!): Boolean!
+
+  # Multisig
+  saveMultisig(input: SaveMultisigInput!): Multisig!
+  multisigSetPubkey(multisigId: ID!, addressId: String!): Boolean
+  multisigSetAddress(input: MultisigSetAddressInput!): Boolean
+  saveMultisigPayment(input: MultisigPaymentInput!): MultisigPayment!
+  multisigPaymentSign(multisigId: ID!, msigpayId: ID!, signer: SignerInput!): scriptSignedReturn!
+  deleteMultisigPayment(multisigId: ID!, msigpayId: ID!): ID!
+
+  # Smart Contract
+  saveSmartcontract(input: SaveSmartcontractInput!): Smartcontract!
+  smartcontractSetPubkey(scriptId: ID!, addressId: String!, tree: Any!): SmartcontractSetPubkeyReturn!
+  smartcontractSetP2sh(input: SmartcontractSetp2wshInput!): Boolean
+  saveSmartcontractPayment(input: SmartcontractPaymentInput!): Payment!
+  smartcontractPaymentSign(smartcontractId: ID!, payId: ID!, path: Any!): Boolean!
+  deletePayment(scriptId: ID!, paymentId: ID!): ID!
+
+  #Inheritance
+  saveInheritance(name: String!, testatorWalletId: ID!, signers: [SignerInput!]!, tree: Any!): Inheritance
+  inheritanceSetPubkey(scriptId: ID!, addressId: String!): Boolean
+  inheritanceSetPubkeyAndAddress(scriptId: ID!, signingWalletId: ID!, recipientAddressId: String): Boolean
+  inheritanceSetScriptAddress(scriptId: ID!, tree: Any!, originalTree: Any!): Boolean
+  setInheritanceStatus(_id: ID!, status: Int!): Boolean
+  setInheritanceTimeTrigger(_id: ID!, timetrigger: Int!): Boolean
+  inheritancePaymentSigned(inheritanceId: ID!, tx: String!, path: ScriptPath!): scriptSignedReturn!
+  inheritanceThirdPartyExecute(scriptId: ID!, finalTree: ScriptTreeInput!): Boolean!
+  #payInheritance(tx_id: String!, tx_hex: String!, concept: String!, scriptId: ID): Boolean!
+  save3partyInheritance(name: String!, thirdpartyWalletId: ID!, signers: [SignerInput!]!, tree: Any!): Inheritance
+
+  # trusts
+  trustSetPubkey(scriptId: ID!, walletId: String!): Boolean
+
+  #Trust
+  newTimeTrust(name: String!, beneficiary: SignerInput!, executionDate: Int!, walletId: ID!): Trust
+
+  # recurringpays
+  saveRecurringPay(input: RecurringPayInput!): RecurringPay!
+  deleteRecurringPay(_id: ID!): RecurringPayDeleted!
+  saveRecurringPayPay(scriptId: ID!, satoshis: GraphQLLong!, fiat: GraphQLLong!, currency: String!): RecurringPayPay!
+
+  # payrequestss
+  savePayrequest(input: PayrequestInput!): Payrequest!
+  deletePayrequest(_id: ID!): PayrequestDeleted!
+  payrequestTxid(_id: ID!, tx_id: String!, creatorId: String!): Boolean
+
+  #aftermessages
+  saveAftermessage(name: String!, beneficiaryId: String!, beneficiaryNick: String!, senderNick: String!, message: String!, type: Int!, date: DateTime!, timetrigger: Int!, parentId: ID, thirdpartyUserId: String, thirdpartyName: String): Aftermessage!
+  updateAftermessage(_id: ID!, message: String!): Boolean!
+  deleteAftermessage(_id: ID!): Boolean!
+  activateftermessage(_id: ID!): Boolean!
+
+  # Contact
+  saveContact(name: String!, email: String!, message: String!): Boolean!
+  setContactStatus(_id: ID!, status: Int!): Boolean
+  setContactAnswer(_id: ID!, answer: String!): Boolean
+  deleteContact(_id: ID!): Boolean!
+
+  # Thirdparty
+  saveThirdparty(input: ThirdpartyInput): Thirdparty!
+
+  # Escrow
+  saveEscrow(input: EscrowInput!): Multisig!
+
+  # lightning
+  lnActivate(walletId: ID!): Lightning!
+  setLNHeight(_id: ID!, height: Int!): Boolean!
+  lnpay(bolt11: String!, invoiceId: String!, msats: GraphQLLong!, description: String!, destination: String!): LnPay!
+  lnCreateInvoice(description: String!, msats: GraphQLLong!, expiry: Int!, payerId: String, payerNick: String ): LnPay!
+  #lnpayreceived(label: String!, msats: GraphQLLong!): Boolean!
+  lnRefundUserSigned(lnId: ID!, userSignature: String!): Boolean!
+  lnRefund(lnId: ID!, tx_id: String!, tx_hex: String!, scriptAddressId: String!): Boolean
+  lnCancel(lnId: ID!, addressId: String!): LnCancel!
+  lnCancelSigned(lnId: ID!, signature: String!): Boolean!
+  lnCancelled(lnId: ID!, tx_id: String!, tx_hex: String!): Boolean
+      # admin
+  lnNewAddress: String!
+  lnWalletSend(destination: String!, satoshis: GraphQLLong!, feerate: String!, isLN2: Boolean): Boolean!
+  lnConnectToPeer(pubkey: String!, net: String!): Boolean!
+  lnNewChannel(id: String!, satoshis: Int, announce: Boolean, isLN2: Boolean): Boolean!
+  lnDisconnectPeer(id: String!): Boolean!
+  lnCloseChannel(id: String!): Boolean!
+
+
+  # Feedback
+  saveFeedback(rating: Float!, text: String!, pics: [String!]): Boolean!
+  setMessageStatus(_id: ID!, status: Int!): Boolean
+  deleteMessage(_id: ID!): Boolean!
+
+  # user
+  setUserOpt(name: String, value: Any): Boolean!
+  setUserSetting(name: String, value: Any): Boolean!
+  updateUser(field: String, value: Any): Boolean!
+  setUserFrequent(nick: String, userId: String!): Boolean!
+  delUserFrequent(nick: String): Boolean!
+  register(email_256: String!, pass_256: String!, nick: String!, referrer: Int, origin: String): User!
+  login(email_256: String!, pass_256: String!, nick: String, origin: String): LoginReturn!
+  loging(log: String!): LoginReturn!
+  #login_register(email_256: String!, pass_256: String!, nick:String!, origin: String): LoginReturn!
+  #login_register2(email: String!, code: String!, origin: String): LoginReturn!
+  #origin_login_register(email: String!, pass: String!, nick:String!, origin: String): LoginReturn!
+  #autologin(code:String!): LoginReturn!
+  setUserDefaultAddress(addressId: String!): Boolean!
+  logout: Boolean!
+  unblockSession(password: String!): Boolean!
+  changePassword(oldPass: String!, newPass: String!): Boolean
+  forgotPassword(email: String!): Boolean!
+  resetPassword(code: String!, newPass: String!): Boolean
+  recommendBapp(email: String!): Boolean!
+  visitor(ip: String!): Boolean!
+
+  # thirdparty
+  thirdpartyRegister(email: String!, pass_256: String!, name: String!, phone: String!, nick: String!, referrer: Int, origin: String!, thirdpartyId: String!): User!
+
+  userMessageAnswer(_id: ID!, text: String!): Boolean
+  bappMessageEntry(userId: String, _id: ID, text: String!, type: String!): Boolean!
+
+  # poll
+  savePoll(name: String!, question: String, answers: [String!]!): Poll!
+  sendPollAnswer(_id: ID!, answerId: Int!, comment: String): Boolean!
+  sendPoll(pollId: ID!, usersId: [String!]!): Boolean!
+
+  #marketpaceChangePassword(email: String!, oldPass: String!, newPass: String!): Boolean!
+  
+  # admin
+  setBappSetting(name: String, value: Any, type: String!): Boolean!
+  # regtest
+  sendtoaddress(addressId: String!): Boolean
+  mine(job: Boolean): Boolean
+
+}
+
+# SUBCRIPTIONS -----------------------------
+type Subscription {
+  newBlock: Block!
+  newWallet(userId: String!): Wallet!
+  newAlert(userId: String!): Alert!
+  alertDeleted(userId: String!): AlertDeleted!
+  newAddress(parentId: ID!): Address!
+  newCoin(scriptId: String!): NewCoin!
+
+  # chat
+  newChatMessage(userId: String!): ChatMessage! 
+
+  # Multisig
+  newMultisig(userId: String!): Multisig!
+  newMultisigPayment(multisigId: ID!): MultisigPayment!
+  multisigPaymentDeleted(multisigId: ID!): multisigPaymentDeletedReturn!
+  paymentSigned(scriptId: ID!): Signer!
+  # Smartcontract
+  newSmartcontract(userId: String!): Smartcontract!
+  newPayment(scriptId: ID!): Payment!
+  paymentDeleted(scriptId: ID!): paymentDeletedReturn!
+  # tx
+  txBroadcasted(scriptId: ID!): txBroadcastedReturn!
+  # Inheritance
+  newInheritance(userId: String!): Inheritance!
+  scriptPubkeySet(scriptId: ID!): Signer!
+  #inheritancePaid(scriptId: ID!): inheritancePaidReturn!
+
+  # RecurringPay
+  newRecurringPay(userId: String!): RecurringPay!
+  recurringpayDeleted(userId: String!): RecurringPayDeleted!
+  newRecurringPayment(scriptId: ID!): RecurringPayPay!
+
+  # Payrequest
+  newPayrequest(userId: String!): Payrequest!
+  payrequestDeleted(userId: String!): PayrequestDeleted!
+  payrequestPaid(userId: String!): PayrequestPaid
+
+  #after message
+  aftermessageReceived(userId: String!): Aftermessage!
+
+  # Contact
+  newContact: Contact!
+
+  # Lightning
+  newLnPay(userId: String!): LnPay! 
+  lnPayReceived(userId: String!): LnPay!
+  lnFunded(lightningId: ID!): Lightning!
+
+  # feedback
+  newFeedback: Message!
+  # User
+  newUser: User!
+
+  ping(userId: String!): Ping!
+}
+
+
+
+#decoded: { currency: 'bcrt',
+#  created_at: 1588612062,
+#  expiry: 604800,
+#  destination: '034a097bda3020e9dae1fd06f7974ac4127a6fa84bc0d5da28bedac96f63664e7f',
+#  msatoshi: 100,
+#  amount_msat: '100msat',
+#  description: 'node 1. desc 49',
+#  min_final_cltv_expiry: 10,
+#  payment_secret: 'dd04c0bc826eaaf989a48fe16dad0ec7253083a495fa185b56fb04d00dd63675',
+#  features: '028200',
+#  payment_hash: 'eeea7d75e501956bc7e2ca3e46365fbbb0b2dec9e1fa4f0d90f1027cbb1022dd',
+#  signature: '3045022100be8b4eb0b8037f6d0370f383e2cc8c3af25d161a1876280c086aa61458a20b2202206f6f3ba3b0e8acd6850d70e963488005240502d581ff274ceee343fee0ded4f4' }
+
+
+
+
+
+
+
+
+
