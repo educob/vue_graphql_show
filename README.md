@@ -1,4 +1,12 @@
-# This is a repository to show bits of one of the projects I have worked on.
+# Bits of a Vue/Graphql Bitcoin services project.
+
+A suite of Bitcoin Services:
+* Self Custodial wallet
+* Multisignature
+* Bitcoin script engine
+* Inheritance solution
+* Multi-user shared-custodial LN service.
+...
 
 This is propietary code.
 Code is not complete and won't run.
