@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (1.0+r73+1)"
+   sodipodi:docname="qrcode.svg"
+   height="512px"
+   width="512px"
+   xml:space="preserve"
+   style="enable-background:new 0 0 512 512;"
+   viewBox="0 0 512 512"
+   y="0px"
+   x="0px"
+   id="Capa_1"
+   version="1.1"><metadata
+   id="metadata89"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs87" /><sodipodi:namedview
+   inkscape:current-layer="Capa_1"
+   inkscape:window-maximized="1"
+   inkscape:window-y="0"
+   inkscape:window-x="0"
+   inkscape:cy="607.55133"
+   inkscape:cx="619.48667"
+   inkscape:zoom="0.50270873"
+   showgrid="false"
+   id="namedview85"
+   inkscape:window-height="1029"
+   inkscape:window-width="1920"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff" />
+<g
+   style=";fill-opacity:1"
+   id="g52">
+	<g
+   style=";fill-opacity:1"
+   id="g50">
+		<g
+   style=";fill-opacity:1"
+   id="g48">
+			<path
+   style=";fill-opacity:1"
+   id="path2"
+   
+   d="M160,0H0v160h160V0z M128,128H32V32h96V128z" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect4"
+   
+   height="32"
+   width="32"
+   y="64"
+   x="64" />
+			<path
+   style=";fill-opacity:1"
+   id="path6"
+   
+   d="M352,0v160h160V0H352z M480,128h-96V32h96V128z" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect8"
+   
+   height="32"
+   width="32"
+   y="64"
+   x="416" />
+			<path
+   style=";fill-opacity:1"
+   id="path10"
+   
+   d="M0,512h160V352H0V512z M32,384h96v96H32V384z" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect12"
+   
+   height="32"
+   width="32"
+   y="416"
+   x="64" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect14"
+   
+   height="32"
+   width="64"
+   x="256" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon16"
+   
+   points="256,128 288,128 288,96 320,96 320,64 224,64 224,32 192,32 192,64 192,80 192,96 256,96    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect18"
+   
+   height="32"
+   width="32"
+   y="128"
+   x="192" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon20"
+   
+   points="320,160 288,160 288,192 192,192 192,224 320,224    " />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon22"
+   
+   points="32,288 64,288 64,256 32,256 32,192 0,192 0,320 32,320    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect24"
+   
+   height="32"
+   width="32"
+   y="192"
+   x="64" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon26"
+   
+   points="192,320 256,320 256,288 224,288 224,256 160,256 160,192 128,192 128,256 96,256 96,320 128,320 128,288      144,288 160,288 192,288    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect28"
+   
+   height="64"
+   width="32"
+   y="256"
+   x="288" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon30"
+   
+   points="288,352 192,352 192,384 256,384 256,480 192,480 192,512 288,512 288,480 352,480 352,448 288,448    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect32"
+   
+   height="32"
+   width="32"
+   y="416"
+   x="192" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect34"
+   
+   height="64"
+   width="32"
+   y="352"
+   x="320" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon36"
+   
+   points="480,416 384,416 384,512 416,512 416,448 480,448    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect38"
+   
+   height="32"
+   width="64"
+   y="480"
+   x="448" />
+			<rect
+   style=";fill-opacity:1"
+   id="rect40"
+   
+   height="32"
+   width="32"
+   y="352"
+   x="480" />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon42"
+   
+   points="384,384 416,384 416,288 352,288 352,320 384,320    " />
+			<polygon
+   style=";fill-opacity:1"
+   id="polygon44"
+   
+   points="448,224 416,224 416,192 384,192 384,224 352,224 352,256 480,256 480,224 512,224 512,192 448,192    " />
+			<rect
+   style=";fill-opacity:1"
+   id="rect46"
+   
+   height="32"
+   width="64"
+   y="288"
+   x="448" />
+		</g>
+	</g>
+</g>
+<g
+   id="g54">
+</g>
+<g
+   id="g56">
+</g>
+<g
+   id="g58">
+</g>
+<g
+   id="g60">
+</g>
+<g
+   id="g62">
+</g>
+<g
+   id="g64">
+</g>
+<g
+   id="g66">
+</g>
+<g
+   id="g68">
+</g>
+<g
+   id="g70">
+</g>
+<g
+   id="g72">
+</g>
+<g
+   id="g74">
+</g>
+<g
+   id="g76">
+</g>
+<g
+   id="g78">
+</g>
+<g
+   id="g80">
+</g>
+<g
+   id="g82">
+</g>
+</svg>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="512px"
+   viewBox="-40 0 427 427.00131"
+   width="512px"
+   version="1.1"
+   id="svg970"
+   sodipodi:docname="copy.svg"
+   inkscape:version="1.0 (1.0+r73+1)">
+  <metadata
+     id="metadata976">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs974" />
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1029"
+     id="namedview972"
+     showgrid="false"
+     inkscape:zoom="0.71093753"
+     inkscape:cx="340.81555"
+     inkscape:cy="329.49607"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg970" />
+  <g
+     id="g1000"
+     transform="matrix(15.724012,0,0,21.237722,-55.085151,-94.074008)"
+     style="fill-opacity:1">
+    <g
+       id="g994"
+       style="fill-opacity:1">
+      <path
+         id="path992"
+         d="M 4,20 C 2.897,20 2,19.103 2,18 V 7 C 2,5.897 2.897,5 4,5 h 17 c 1.103,0 2,0.897 2,2 H 4 Z"
+         style="fill-opacity:1" />
+    </g>
+    <g
+       id="g998"
+       style="fill-opacity:1">
+      <path
+         id="path996"
+         d="M 25,24 H 8 C 6.897,24 6,23.103 6,22 V 11 C 6,9.897 6.897,9 8,9 h 17 c 1.103,0 2,0.897 2,2 v 11 c 0,1.103 -0.897,2 -2,2 z M 8,11 H 7.999 L 8,22 H 25 V 11 Z"
+         style="fill-opacity:1" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "store/*": [
+        "src/store"
+      ],
+      "components/*": [
+        "src/components"
+      ],
+    },
+    "esModuleInterop": true,
+    "jsx": "react"
+  },
+}
