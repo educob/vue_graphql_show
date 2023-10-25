@@ -8,8 +8,12 @@ A suite of Bitcoin Services:
 * Multi-user shared-custodial LN service.
 ...
 
-This is propietary code.
+This is propietary code. Canot use.
 Code is not complete and won't run.
+
+
+## React-Native
+The main parts of the self-custodial Bitcoin inheritance app.
 
 ## Vue
 The main parts of the frontend server developped using Vue
@@ -19,6 +23,5 @@ The main parts of the nodejs - graphql server that receives calls from the front
 index.js process the Bitcoin blockchain.
 
 ## blockchain_parser
-
 Python code parsing Bitcoin blockchain from the hard disk (not through a Bitcoin node).
 
