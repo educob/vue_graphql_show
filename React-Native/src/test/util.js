@@ -128,11 +128,7 @@ module.exports = {
     const sigs2 = []
     const sigs1 = []
     for(let i=0; i< psbt.data.inputs.length; i++) {
-      psbt.signInput(i, keyPair)
-      const sig1 = psbt.data.inputs[i].partialSig[1].signature.toString('base64')
-      sigs1.push( sig1 )
-      const sig2 = psbt.data.inputs[i].partialSig[0].signature.toString('base64')
-      sigs2.push( sig2 )
+      ... signing code
     }
     // insert signature in path
     const path = { steps: [ { type: "IF" }, { type: "SIGNATURE", }, { type: "SIGNATURE", } ] }
@@ -266,17 +262,7 @@ function path2Tx(psbt, path, network) { //console.log("path2Tx patthhh:", path) 
     let script = []
     steps_reversed.forEach(step => {
       //console.log("step:", step)
-      if(step.type == 'IF') {
-        script.push(bitcoin.opcodes.OP_TRUE)
-        //console.log("bitcoin.opcodes.OP_TRUE")
-      } else if(step.type == 'ELSE') {
-        script.push(bitcoin.opcodes.OP_FALSE)
-        //console.log("bitcoin.opcodes.OP_FALSE")
-      } else if(step.type == 'SIGNATURE') {
-        const sig = Buffer.from(step.sigs[inputIndex], 'base64')
-        script.push(sig)
-        //console.log(step.nick,".signature")
-      }
+      ... my bitcoin script code
     })
     return bitcoin.script.compile(script)
   }
