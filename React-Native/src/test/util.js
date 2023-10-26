@@ -130,10 +130,7 @@ module.exports = {
     for(let i=0; i< psbt.data.inputs.length; i++) {
       ... signing code
     }
-    // insert signature in path
-    const path = { steps: [ { type: "IF" }, { type: "SIGNATURE", }, { type: "SIGNATURE", } ] }
-    path.steps[2].sigs = sigs2
-    path.steps[1].sigs = sigs1
+    ... path code
     const tx = path2Tx(psbt, path)
     const tx_hex = tx.toHex()
     //console.log("tx_hex:", tx_hex)
