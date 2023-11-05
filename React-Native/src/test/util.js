@@ -7,7 +7,7 @@ const ecc  = require( '../libs/noble_ecc_node');
 const bip32 = BIP32Factory(ecc);
 const varuint = require('varuint-bitcoin')
 
-const managerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhjMmFlMGZjNWZjYTcxZWYwY2EwNmIiLCJuaWNrIjoiUmVndGVzdCIsInJvbGVzIjpbInRoaXJkcGFydHlBZG1pbiJdLCJ0aGlyZHBhcnR5SWQiOiI2NDhjMmFjMWZjNWZjYTcxZWYwY2EwNmEiLCJuZXR3b3JrIjoiUmVndGVzdCIsImRhdGUiOiIyMDIzLTA2LTIzVDA2OjE4OjU4LjY2OVoiLCJpYXQiOjE2ODc1MDExMzh9.O663MDJp_liUfgDoC4vE_V_hiQ_ia8ZFl8Ujp5fYZcU'
+const managerToken = 'xxx
 
 module.exports = {
   network: bitcoin.networks.regtest,
